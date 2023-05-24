@@ -1,18 +1,19 @@
 {
-  "name": "JATE",
+  "name": "jate",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start:dev": "",
-    "start": "",
-    "server": "",
-    "build": "",
-    "install": "",
-    "client": ""
+    "dev": "webpack-dev-server",
+    "start:dev": "npm run dev",
+    "start": "npm run build && node server.js",
+    "server": "nodemon server.js --ignore client",
+    "build": "npm run build",
+    "install": "npm install",
+    "client": "npm start"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jordan Cardenas",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
@@ -21,5 +22,13 @@
   "devDependencies": {
     "concurrently": "^5.2.0",
     "nodemon": "^2.0.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/408broncos/text-editor-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/408broncos/text-editor-app/issues"
+  },
+  "homepage": "https://github.com/408broncos/text-editor-app#readme"
 }
