@@ -8,6 +8,9 @@ module.exports = {
   entry: {
     main: './src/js/index.js',
     install: './src/js/install.js',
+    database: './src/js/database.js',
+    editor: './src/js/editor.js',
+    header: './src/js/header.js',
   },
   output: {
     filename: '[name].bundle.js',
@@ -16,15 +19,19 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './index.html',
-      chunks: ['main'],
+      title: 'jate',
     }),
 
     new WebpackPwaManifest({
+      start_url: '/',
+      publicPath: '/',
       name: 'My PWA App',
-      short_name: 'My App',
+      short_name: 'jate',
       description: 'This is my Progressive Web App',
       background_color: '#ffffff',
       theme_color: '#000000',
+      fingerprints: false,
+      inject: true,
       icons: [
         {
           src: path.resolve(__dirname, 'src/images/logo.png'),

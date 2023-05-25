@@ -19,7 +19,8 @@ export const putDb = async (content) => {
   const tx = db.transaction('jate', 'readwrite');
   const store = tx.objectStore('jate');
   const request = store.add({ content });
-  
+  console.log('GET from the database');
+
   return new Promise((resolve, reject) => {
     request.onsuccess = () => {
       console.log('Data added to the database');
@@ -34,22 +35,42 @@ export const putDb = async (content) => {
 };
 
 export const getDb = async () => {
-  const db = await dbPromise;
-  const tx = db.transaction('jate', 'readonly');
-  const store = tx.objectStore('jate');
-  const request = store.getAll();
-  
-  return new Promise((resolve, reject) => {
-    request.onsuccess = () => {
-      console.log('Data retrieved from the database');
-      resolve(request.result);
-    };
+  console.log('PUT to the database');
 
-    request.onerror = () => {
-      console.error('Error retrieving data from the database');
-      reject(new Error('Failed to retrieve data'));
-    };
-  });
+  const saveToDb = async (content) => {
+    try {
+      const contactDb = await openDB('jate', 1);
+      const tx = contactDb.transaction('jate', 'readwrite');
+      const store = tx.objectStore('jate');
+      const request = store.put({ id: 1, value: content });
+      const result = await request;
+      console.log('🚀 - data saved to the database', result);
+    } catch (error) {
+      console.error('Error saving data to the database', error);
+    }
+  };
+
+  const retrieveFromDb = async () => {
+    try {
+      const contactDb = await openDB('jate', 1);
+      const tx = contactDb.transaction('jate', 'readonly');
+      const store = tx.objectStore('jate');
+      const request = store.getAll();
+      const result = await request;
+      console.log('result.value', result);
+      return result?.value;
+    } catch (error) {
+      console.error('Error retrieving data from the database', error);
+      return null;
+    }
+  };
+
+  await saveToDb('Content to be saved');
+
+  const data = await retrieveFromDb();
+  console.log('Database initialization complete');
+  return data;
 };
 
 initdb();
+getDb();
