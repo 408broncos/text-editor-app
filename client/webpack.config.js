@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -41,10 +42,15 @@ module.exports = {
       ],
     }),
 
-    new WorkboxWebpackPlugin.GenerateSW({
+    new WorkboxWebpackPlugin.InjectManifest({
+      swSrc: './src-sw.js',
       swDest: 'service-worker.js',
-      clientsClaim: true,
-      skipWaiting: true,
+    }),
+
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: './src-sw.js', to: 'src-sw.js' },
+      ],
     }),
   ],
 
